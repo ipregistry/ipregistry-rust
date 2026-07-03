@@ -79,14 +79,14 @@ jobs:
             $0 ~ ("^## \\[" ver "\\]") { capture=1; next }
             capture && (/^## / || /^\[[^][]+\]:[[:space:]]/) { exit }
             capture { print }
-          ' CHANGELOG.md | sed -e '/./,$!d' > release-notes.md
-          if [ ! -s release-notes.md ]; then
+          ' CHANGELOG.md | sed -e '/./,$!d' > "$RUNNER_TEMP/release-notes.md"
+          if [ ! -s "$RUNNER_TEMP/release-notes.md" ]; then
             echo "::error::No changelog section found for [$VERSION] in CHANGELOG.md."
             exit 1
           fi
           echo "Release notes for $TAG:"
           echo "----------------------------------------"
-          cat release-notes.md
+          cat "$RUNNER_TEMP/release-notes.md"
           echo "----------------------------------------"
 
       - name: Run local checks (format, lints, unit and behavior tests)
@@ -146,7 +146,7 @@ jobs:
           gh release create "$TAG" \
             --target "$GITHUB_SHA" \
             --title "$TAG" \
-            --notes-file release-notes.md \
+            --notes-file "$RUNNER_TEMP/release-notes.md" \
             $prerelease \
             "target/package/ipregistry-$VERSION.crate"
           echo "Released $TAG: ${{ github.server_url }}/${{ github.repository }}/releases/tag/$TAG"
