@@ -131,10 +131,10 @@ jobs:
           fi
 
       - name: Create tag and GitHub release
-        # The default Actions token (GITHUB_TOKEN) is blocked by an organization
-        # rule from creating v*-prefixed tags. Provide a RELEASE_TOKEN secret (a
-        # PAT owned by a user allowed to create such tags, with Contents: write)
-        # so the tag and release are created as that user.
+        # Uses the default Actions token. If an organization or repository
+        # ruleset ever restricts v* tag creation without a GitHub Actions
+        # bypass, set a RELEASE_TOKEN secret (a PAT with Contents: write owned
+        # by a user allowed to create such tags) and it takes precedence.
         env:
           GH_TOKEN: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
