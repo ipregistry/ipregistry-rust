@@ -116,9 +116,19 @@ jobs:
         # Published before the tag and GitHub Release are created: a crates.io
         # publish cannot be repeated for the same version, whereas the steps
         # below are trivially re-runnable if anything after this point fails.
+        # If the version is already on crates.io (a previous run failed after
+        # this step), publishing is skipped so a re-run completes the release.
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish --no-verify # already verified by the package step
+        run: |
+          set -euo pipefail
+          # Sparse-index path for the crate: <first two>/<next two>/<name>.
+          if curl -fsSL "https://index.crates.io/ip/re/ipregistry" 2>/dev/null \
+              | grep -q "\"vers\":\"$VERSION\""; then
+            echo "::notice::ipregistry $VERSION is already on crates.io; skipping publish."
+          else
+            cargo publish --no-verify # already verified by the package step
+          fi
 
       - name: Create tag and GitHub release
         # The default Actions token (GITHUB_TOKEN) is blocked by an organization
