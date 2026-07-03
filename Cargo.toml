@@ -1,0 +1,34 @@
+[package]
+name = "ipregistry"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Official Rust client for the Ipregistry IP geolocation and threat intelligence API"
+license = "Apache-2.0"
+repository = "https://github.com/ipregistry/ipregistry-rust"
+homepage = "https://ipregistry.co"
+documentation = "https://docs.rs/ipregistry"
+readme = "README.md"
+keywords = ["ip", "geolocation", "geoip", "ipregistry", "threat"]
+categories = ["api-bindings", "web-programming::http-client"]
+
+[features]
+default = ["rustls-tls"]
+# TLS via rustls (pure Rust, no system dependencies).
+rustls-tls = ["reqwest/rustls"]
+# TLS via the platform-native library (OpenSSL, Secure Transport, SChannel).
+native-tls = ["reqwest/native-tls"]
+
+[dependencies]
+futures-util = { version = "0.3.32", default-features = false, features = ["std"] }
+lru = "0.18.0"
+reqwest = { version = "0.13.4", default-features = false, features = ["http2"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = "1.0.150"
+thiserror = "2.0.18"
+tokio = { version = "1.52.3", features = ["time"] }
+url = "2.5.8"
+
+[dev-dependencies]
+tokio = { version = "1.52.3", features = ["macros", "rt-multi-thread"] }
+wiremock = "0.6.5"
