@@ -164,6 +164,10 @@ pub struct Connection {
     /// The domain of the Autonomous System.
     #[serde(default, deserialize_with = "null_default")]
     pub domain: String,
+    /// Whether the IP address is announced via anycast, i.e. simultaneously
+    /// from multiple locations.
+    #[serde(default, deserialize_with = "null_default")]
+    pub is_anycast: bool,
     /// The organization operating the Autonomous System.
     #[serde(default, deserialize_with = "null_default")]
     pub organization: String,

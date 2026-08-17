@@ -35,6 +35,7 @@ fn sample_ip_info() -> serde_json::Value {
         "connection": {
             "asn": 15169,
             "domain": "google.com",
+            "is_anycast": true,
             "organization": "Google LLC",
             "route": "8.8.8.0/24",
             "type": "business"
@@ -131,6 +132,7 @@ async fn lookup_sends_expected_request_and_decodes_response() {
         "null carrier name decodes to default"
     );
     assert_eq!(info.connection.asn, Some(15169));
+    assert!(info.connection.is_anycast);
     assert_eq!(
         info.company.company_type,
         Some(ipregistry::model::CompanyType::Business)
@@ -208,6 +210,7 @@ async fn sparse_response_decodes_to_defaults() {
     assert_eq!(info.location.country.name, "United States");
     assert_eq!(info.ip, None);
     assert_eq!(info.connection.asn, None);
+    assert!(!info.connection.is_anycast);
     assert_eq!(info.location.city, "");
 }
 
