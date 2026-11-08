@@ -7,12 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-11-08
+
 ### Added
 
 - New field `Connection::is_anycast` (JSON `connection.is_anycast`): whether the IP address is announced via
   anycast, i.e. simultaneously from multiple locations.
 - New field `Security::is_residential_proxy` (JSON `security.is_residential_proxy`): whether the IP address is
   a node of a residential proxy network.
+
+### Changed
+
+- Updated dependencies, including the security fixes in rustls, rustls-webpki, quinn-proto and h2, and lru 0.19.
 
 ## [1.0.0] - 2026-07-03
 
