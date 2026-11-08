@@ -92,6 +92,7 @@ fn sample_ip_info() -> serde_json::Value {
             "is_cloud_provider": false,
             "is_proxy": false,
             "is_relay": false,
+            "is_residential_proxy": true,
             "is_tor": false,
             "is_tor_exit": false,
             "is_anonymous": false,
@@ -143,6 +144,7 @@ async fn lookup_sends_expected_request_and_decodes_response() {
     assert_eq!(info.location.country.flag.emoji, "🇺🇸");
     assert_eq!(info.currency.format.negative.prefix, "-$");
     assert!(!info.security.is_vpn);
+    assert!(info.security.is_residential_proxy);
     assert_eq!(info.time_zone.offset, -25200);
 }
 
@@ -211,6 +213,7 @@ async fn sparse_response_decodes_to_defaults() {
     assert_eq!(info.ip, None);
     assert_eq!(info.connection.asn, None);
     assert!(!info.connection.is_anycast);
+    assert!(!info.security.is_residential_proxy);
     assert_eq!(info.location.city, "");
 }
 

@@ -262,6 +262,9 @@ pub struct Security {
     /// The IP address is a relay (for example iCloud Private Relay).
     #[serde(default, deserialize_with = "null_default")]
     pub is_relay: bool,
+    /// The IP address is a node of a residential proxy network.
+    #[serde(default, deserialize_with = "null_default")]
+    pub is_residential_proxy: bool,
     /// The IP address is a Tor node.
     #[serde(default, deserialize_with = "null_default")]
     pub is_tor: bool,
